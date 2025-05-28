@@ -1,5 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,9 +34,9 @@ class _MyHomePageState extends State<MyHomePage> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    Center(child: const Text('tela 1')),
-    Center(child: const Text('tela 2')),
-    Center(child: const Text('tela 3')),
+    const Center(child: Text('Tela 1', style: TextStyle(fontSize: 24))),
+    const Center(child: Text('Tela 2', style: TextStyle(fontSize: 24))),
+    const Center(child: Text('Tela 3', style: TextStyle(fontSize: 24))),
   ];
 
   void _onItemTapped(int index) {
@@ -47,19 +48,29 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectedIndex],
+      body: Center(
+        child: CarouselSlider(
+          options: CarouselOptions(height: 200.0, enlargeCenterPage: true),
+          items: _pages.map((widget) {
+            return Container(
+              margin: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(8.0),
+              color: Colors.white,
+              child: widget,
+            );
+          }).toList(),
+        ),
+      ),
       backgroundColor: Colors.green,
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.green,
-        items: <Widget>[
+        items: const <Widget>[
           Icon(Icons.add, size: 30),
           Icon(Icons.list, size: 30),
           Icon(Icons.compare_arrows, size: 30),
         ],
         onTap: (index) {
-          setState(() {
-            _onItemTapped(index);
-          });
+          _onItemTapped(index);
         },
       ),
     );
